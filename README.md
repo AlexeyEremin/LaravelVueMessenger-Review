@@ -57,3 +57,12 @@ php artisan reverb:start
 ### Использование
 
 Сайт изначально запускается по такому пути http:/localhost:5173
+
+### Демонстрация
+![фото 1](https://github.com/Xiroke/LaravelVueMessenger/blob/master/docs/1.png)
+
+![фото 2](https://github.com/Xiroke/LaravelVueMessenger/blob/master/docs/2.png)
+
+![фото 3](https://github.com/Xiroke/LaravelVueMessenger/blob/master/docs/3.png)
+
+![фото 4](https://github.com/Xiroke/LaravelVueMessenger/blob/master/docs/4.png)
