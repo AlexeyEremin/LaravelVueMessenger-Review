@@ -6,14 +6,11 @@ const attrs = useAttrs();
 </script>
 
 <template>
-    <div class="channel" :class="{ active: is_active }" v-bind="attrs">
+    <div
+        class="channel"
+        :class="{ 'channel-active': is_active }"
+        v-bind="attrs"
+    >
         <div class="title">{{ props.title }}</div>
     </div>
 </template>
-
-<style scoped>
-.active {
-    background-color: var(--primary);
-    color: white;
-}
-</style>

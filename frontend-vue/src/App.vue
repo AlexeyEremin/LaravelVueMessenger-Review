@@ -3,6 +3,7 @@ import axios from "axios";
 import { onMounted } from "vue";
 import { configureEcho } from "@laravel/echo-vue";
 
+// настройка вебсокетов
 configureEcho({
     broadcaster: "reverb",
     key: import.meta.env.VITE_REVERB_APP_KEY,
@@ -25,11 +26,3 @@ onMounted(async () => {
         <RouterView />
     </main>
 </template>
-
-<style scoped>
-header {
-    height: 60px;
-    width: 100%;
-    color: #545454;
-}
-</style>

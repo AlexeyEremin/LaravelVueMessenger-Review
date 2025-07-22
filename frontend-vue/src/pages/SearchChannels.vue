@@ -1,16 +1,17 @@
 <script setup lang="ts">
 import axios from "axios";
 import Input from "@/components/Input.vue";
-import Channel from "@/components/Channel.vue";
 import { ref } from "vue";
 import type { IChannel } from "@/shared/types";
 import ChannelJoin from "@/components/ChannelJoin.vue";
 
 const channels = ref<IChannel[]>([]);
 const isSearch = ref(false);
+// группы к которым присоединится пользователь
 const joinedGroups = ref<number[]>([]);
 
 const searchChannels = async (e: any) => {
+    // поиск канала по названию
     const form = e.currentTarget as HTMLFormElement;
     const formData = new FormData(form);
     const response = await axios.get(
@@ -21,6 +22,7 @@ const searchChannels = async (e: any) => {
 };
 
 const joinChannel = async (channel_id: number) => {
+    // присоединение к каналу
     await axios.post(`/api/channels/join/${channel_id}}`);
     joinedGroups.value.push(channel_id);
 };
@@ -51,26 +53,3 @@ const joinChannel = async (channel_id: number) => {
         </div>
     </div>
 </template>
-
-<style scoped>
-.search-channels-container {
-    padding-top: 40px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.search-form {
-    display: flex;
-    flex-direction: row;
-}
-.search-form-btn {
-    align-self: end;
-}
-.channels {
-    margin-top: 60px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    height: 100vh;
-}
-</style>

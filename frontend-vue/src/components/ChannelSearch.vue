@@ -16,5 +16,3 @@ const router = useRouter();
         <IconSearch />
     </div>
 </template>
-
-<style scoped></style>

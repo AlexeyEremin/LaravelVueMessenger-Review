@@ -1,4 +1,6 @@
 <script setup lang="tsx">
+import { useAttrs } from "vue";
+
 interface InputProps {
     label?: string;
     id: string;
@@ -8,7 +10,6 @@ interface InputProps {
 const props = withDefaults(defineProps<InputProps>(), {
     styleType: "md",
 });
-import { useAttrs } from "vue";
 
 const attrs = useAttrs();
 </script>

@@ -7,19 +7,19 @@ const attrs = useAttrs();
 </script>
 
 <template>
-    <div class="channel" :class="{ active: is_active }" v-bind="attrs">
+    <div
+        class="channel"
+        :class="{ 'channel-active': is_active }"
+        v-bind="attrs"
+    >
         <div class="title">{{ props.title }}</div>
-        <button class="channel-join" :class="{ active: is_active }">
+        <button class="channel-join" :class="{ 'channel-active': is_active }">
             <IconJoin />
         </button>
     </div>
 </template>
 
 <style scoped>
-.active {
-    background-color: var(--primary);
-    color: white;
-}
 .channel-join {
     border: none;
     background-color: none;

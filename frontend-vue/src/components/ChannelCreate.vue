@@ -1,12 +1,12 @@
 <script setup lang="tsx">
 import axios from "axios";
-import { defineProps } from "vue";
 import { useAttrs } from "vue";
 
 const props = defineProps(["uiAddChannel"]);
 const attrs = useAttrs();
 
 const createChannel = async () => {
+    //создание канала
     const entered_data = prompt("Создание чата", "Название");
     console.log(entered_data);
     try {
@@ -23,5 +23,3 @@ const createChannel = async () => {
         +
     </div>
 </template>
-
-<style lang="css" scoped></style>

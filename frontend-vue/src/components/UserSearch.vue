@@ -16,5 +16,3 @@ const router = useRouter();
         <IconCommunity />
     </div>
 </template>
-
-<style scoped></style>

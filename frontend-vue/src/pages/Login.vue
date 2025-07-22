@@ -9,9 +9,11 @@ const router = useRouter();
 const is_loading = ref(false);
 
 const handleLogin = async (e: Event) => {
+    // обработка запроса входа
     is_loading.value = true;
     const form = e.currentTarget as HTMLFormElement;
     const data = new FormData(form);
+
     let response;
     try {
         response = await axios.post("/api/login", data);
@@ -20,6 +22,7 @@ const handleLogin = async (e: Event) => {
         is_loading.value = false;
         return;
     }
+
     if (response.status == 200) {
         router.push("/chat");
     }
@@ -27,6 +30,7 @@ const handleLogin = async (e: Event) => {
 };
 
 const choiceAnother = () => {
+    // переход на страницу входа
     router.push("/register");
 };
 </script>
@@ -57,12 +61,10 @@ const choiceAnother = () => {
             >
             <div>
                 Нету аккаунта?
-                <span @click="choiceAnother" class="another-choice"
+                <span @click="choiceAnother" class="auth-another-choice"
                     >Зарегистрироваться</span
                 >
             </div>
         </form>
     </div>
 </template>
-
-<style scoped></style>

@@ -2,7 +2,7 @@
 import { onMounted, onUnmounted, ref, watch, nextTick } from "vue";
 import { useRouter } from "vue-router";
 import { useEchoPublic } from "@laravel/echo-vue";
-import type { IChannel, IMessage, IUser } from "@/shared/types";
+import type { IChannel, IMessage } from "@/shared/types";
 import Input from "@/components/Input.vue";
 import Channel from "@/components/Channel.vue";
 import Message from "@/components/Message.vue";
@@ -16,15 +16,19 @@ const router = useRouter();
 const channels = ref<IChannel[]>([]);
 const messages = ref<IMessage[] | undefined>(undefined);
 const currentChatId = ref<number | undefined>(undefined);
+// блок с сообщениями (для скрола)
 const messagesContainer = ref<HTMLElement | null>(null);
+// имя пользователя
 const myName = ref<string | null>(null);
 
 const getMe = async () => {
+    // получение информации о себе
     const response = await axios.get("/api/users/me");
     myName.value = response.data.name;
 };
 
 const getMyChannels = async () => {
+    // получение моих каналов
     try {
         const response = await axios.get("/api/channels/me");
         channels.value = response.data;
@@ -34,6 +38,7 @@ const getMyChannels = async () => {
 };
 
 const sendMessage = async (e: Event) => {
+    // отправка сообщения
     if (!currentChatId.value) return;
     const formData = new FormData(e.currentTarget as HTMLFormElement);
     const data = {
@@ -44,9 +49,12 @@ const sendMessage = async (e: Event) => {
 };
 
 const deleteMessage = async (message_id: number) => {
+    // удаление сообщения
     await axios.delete(`/api/messages/${message_id}`);
+    // поиск индекса сообщения
+    // для изменения текущего ui
     const index_message = messages.value?.findIndex((i) => i.id == message_id);
-    console.log(index_message);
+
     if (index_message !== undefined) {
         messages.value?.splice(index_message, 1);
     }
@@ -54,12 +62,13 @@ const deleteMessage = async (message_id: number) => {
 let echoListener: any = null;
 
 const scrollDown = () => {
+    // прокрутка в конец сообщений
     if (messagesContainer.value) {
         messagesContainer.value.scrollTop =
             messagesContainer.value.scrollHeight;
     }
 };
-
+// прокрутка в конец сообщений при открытии страницы
 watch(messages, () => nextTick(scrollDown), { deep: true });
 watch(currentChatId, async (newId, oldId) => {
     if (!newId) return;
@@ -72,8 +81,8 @@ watch(currentChatId, async (newId, oldId) => {
         `/api/channels/${currentChatId.value}/messages`
     );
     messages.value = response.data;
+
     // запуск прослушивания сообщений
-    console.log(currentChatId.value);
     echoListener = useEchoPublic(
         `channels.${currentChatId.value}`,
         ".MessageBroadcast",
@@ -111,6 +120,7 @@ onUnmounted(() => {
             />
             <ChannelCreate :uiAddChannel="getMyChannels" />
         </div>
+
         <div v-if="currentChatId" class="chat">
             <div ref="messagesContainer" class="messages">
                 <Message
@@ -122,6 +132,7 @@ onUnmounted(() => {
                     :delete-callback="() => deleteMessage(message.id)"
                 />
             </div>
+
             <form @submit.prevent="sendMessage" class="message-input">
                 <Input
                     ref="sendMessageInput"
@@ -136,6 +147,7 @@ onUnmounted(() => {
                 </button>
             </form>
         </div>
+
         <div v-else class="center">Выберите чат</div>
     </div>
 </template>

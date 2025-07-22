@@ -15,6 +15,7 @@ class Channel extends Model
     }
 
     public function isMember(User $user) {
+        // является ли пользователь участником текущего чата
         return $this->users()->where('users.id', $user->id)->exists();
     }
 

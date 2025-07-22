@@ -8,10 +8,12 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 const is_loading = ref(false);
 
-const handleLogin = async (e: Event) => {
+const handleRegisteration = async (e: Event) => {
+    // обработка запроса регистрации
     is_loading.value = true;
     const form = e.currentTarget as HTMLFormElement;
     const data = new FormData(form);
+
     let response;
     try {
         response = await axios.post("/api/register", data);
@@ -20,6 +22,7 @@ const handleLogin = async (e: Event) => {
         is_loading.value = false;
         return;
     }
+
     if (response.status == 201) {
         router.push("/chat");
     }
@@ -27,6 +30,7 @@ const handleLogin = async (e: Event) => {
 };
 
 const choiceAnother = () => {
+    // переход на страницу регистрации
     router.push("/login");
 };
 </script>
@@ -35,7 +39,7 @@ const choiceAnother = () => {
     <div class="form_container">
         <h1>Регистрация</h1>
         <h4>Создайте новый аккаунт</h4>
-        <form @submit.prevent="handleLogin" class="form">
+        <form @submit.prevent="handleRegisteration" class="form">
             <Input
                 label="Имя"
                 id="login_name"
@@ -73,10 +77,10 @@ const choiceAnother = () => {
             >
             <div>
                 Есть аккаунт?
-                <span @click="choiceAnother" class="another-choice">Войти</span>
+                <span @click="choiceAnother" class="auth-another-choice"
+                    >Войти</span
+                >
             </div>
         </form>
     </div>
 </template>
-
-<style scoped></style>
