@@ -1,0 +1,84 @@
+@import "./base.css";
+
+.form_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.another-choice {
+    color: var(--accent);
+    border-bottom: 1px solid var(--accent);
+    cursor: pointer;
+}
+
+.channel {
+    width: 200px;
+    height: 40px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    padding-left: 8px;
+    padding-right: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.channel-icon {
+    justify-content: center;
+    padding-left: 0;
+    font-size: 24px;
+}
+
+.btn-lg {
+    border: none;
+    height: 48px;
+    width: 120px;
+    background-color: var(--primary);
+    border-radius: 6px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn-md {
+    border: none;
+    height: 36px;
+    width: 100px;
+    background-color: var(--primary);
+    border-radius: 6px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn-lg-icon {
+    border: none;
+    height: 48px;
+    width: 48px;
+    background-color: var(--primary);
+    border-radius: 6px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    cursor: pointer;
+}
