@@ -37,4 +37,14 @@ class CreateNewUser implements CreatesNewUsers
             'password' => Hash::make($input['password']),
         ]);
     }
+
+
+
+    /**
+     * Сейчас используем стандартный подход без ранее реализованных интерфейсов и подходов.
+     * Так как на чемпионате у тебя не будет инета.
+     * Базовый Laravel выдан будет.
+     *
+     * Посмотри пожалуйста пример app/Http/Controllers/UserController > public function standartUser
+     */
 }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Message\StoreRequest;
+use App\Http\Resources\Message\GetMessageChannel;
 use App\Models\Channel;
 use App\Models\Message;
 use Illuminate\Http\Request;
@@ -23,25 +25,42 @@ class MessageController extends Controller
             ];
         });
     }
-    public function sendMessage(Request $request) {
-        // отправка соощения
-        $validated = $request->validate(['message' => 'string|min:1', 'channel_id' => 'exists:channels,id']);
-        $user = $request->user();
-        $msg = Message::create(['content' => $validated['message'], 'channel_id' => $validated['channel_id'], 'user_id' => $user->id]);
-        // отправка сообщения по вебсокету
-        MessageBroadcast::dispatch($msg);
 
-        return response()->json(['status' => 'ok'], 200);
+    public function review_getMessagesByChannel(Channel $channel) {
+        # Мы получаем все сообщения, как я понимаю из твоего запроса, а не каналы
+        # Исходя из твоей логики я понимаю, что должно быть получения таким образом
+        # У тебя должен быть бургер: Канал > Сообщения + Пользователи
+        # Ты на стороне клиента берешь и собираешь этот бургер соединяя пользователя и его сообщения
+
+        # Создание ресурса: php artisan make:resource NameResource
+        return GetMessageChannel::make($channel);
     }
 
-    public function deleteMyMessage(Request $request, Message $message) {
-        // удаление своего сообщения
-        $user = $request->user();
-        // проврека принадлежности сообщения
-        if ($message->user_id != $user->id) {
-            return response()->json(['status' => 'not owner'], 200);
-        }
+    /**
+     * Метод отправки сообщений
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function sendMessage(StoreRequest $request) {
+        $user = auth()->user();
+        # Чтобы не заполнять user_id используем создания сообщений из модели User
+        $message = $user->messages()->create($request->validated());
+        // отправка сообщения по вебсокету
+        MessageBroadcast::dispatch($message);
+
+        return response()->json(['status' => 'ok']);
+    }
+
+    /**
+     * Метод удаления сообщения
+     * @param Message $message
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deleteMyMessage(Message $message) {
+        if ($message->user_id == auth()->id())
+            return response()->json(['status' => 'not owner']);
+
         $message->delete();
-        return response()->json(['status' => 'ok'], 200);
+        return response()->json(['status' => 'ok']);
     }
 }
